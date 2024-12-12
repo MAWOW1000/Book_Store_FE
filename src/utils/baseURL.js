@@ -1,5 +1,5 @@
 const getBaseUrl = () => {
-    return new URL(import.meta.env.URL_BE);
+    return process.env.VITE_BE;
 }
 
 export default getBaseUrl;
