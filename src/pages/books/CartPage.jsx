@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { getImgUrl } from '../../utils/getImgUrl';
@@ -7,6 +7,7 @@ import { clearCart, removeFromCart } from '../../redux/features/cart/cartSlice';
 const CartPage = () => {
     const cartItems = useSelector(state => state.cart.cartItems);
     const dispatch =  useDispatch()
+    const fallbackImageUrl = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRAH2An4gjKf3ePj06sG3pHTrWQcYbZJnzC4g&s";
 
     const totalPrice =  cartItems.reduce((acc, item) => acc + item.newPrice, 0).toFixed(2);
 
@@ -17,6 +18,11 @@ const CartPage = () => {
     const handleClearCart  = () => {
         dispatch(clearCart())
     }
+
+    const handleImageError = (e) => {
+        e.target.src = fallbackImageUrl;
+    }
+
     return (
         <>
             <div className="flex mt-12 h-full flex-col overflow-hidden bg-white shadow-xl">
@@ -45,8 +51,9 @@ const CartPage = () => {
                                                 <li key={product?._id} className="flex py-6">
                                                     <div className="h-24 w-24 flex-shrink-0 overflow-hidden rounded-md border border-gray-200">
                                                         <img
-                                                            alt=""
+                                                            alt={product?.title || "Book cover"}
                                                             src={`${getImgUrl(product?.coverImage)}`}
+                                                            onError={handleImageError}
                                                             className="h-full w-full object-cover object-center"
                                                         />
                                                     </div>
