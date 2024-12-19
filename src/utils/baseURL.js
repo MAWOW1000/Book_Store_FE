@@ -1,5 +1,5 @@
 const getBaseUrl = () => {
-    return process.env.VITE_BE;
+    return "http://localhost:5000"
 }
 
 export default getBaseUrl;
