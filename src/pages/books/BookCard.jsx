@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { FiShoppingCart } from 'react-icons/fi'
 import { getImgUrl } from '../../utils/getImgUrl'
 
@@ -9,10 +9,16 @@ import { addToCart } from '../../redux/features/cart/cartSlice'
 
 const BookCard = ({book}) => {
     const dispatch =  useDispatch();
+    const fallbackImageUrl = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRAH2An4gjKf3ePj06sG3pHTrWQcYbZJnzC4g&s";
 
     const handleAddToCart = (product) => {
         dispatch(addToCart(product))
     }
+
+    const handleImageError = (e) => {
+        e.target.src = fallbackImageUrl;
+    }
+
     return (
         <div className=" rounded-lg transition-shadow duration-300">
             <div
@@ -22,6 +28,7 @@ const BookCard = ({book}) => {
                     <Link to={`/books/${book._id}`}>
                         <img
                             src={`${getImgUrl(book?.coverImage)}`}
+                            onError={handleImageError}
                             alt=""
                             className="w-full bg-cover p-2 rounded-md cursor-pointer hover:scale-105 transition-all duration-200"
                         />
